@@ -1,6 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[检测到目标URL存在框架注入漏洞（即点击劫持）]]></title>
+    <url>%2F2018%2F09%2F01%2F%E6%A3%80%E6%B5%8B%E5%88%B0%E7%9B%AE%E6%A0%87URL%E5%AD%98%E5%9C%A8%E6%A1%86%E6%9E%B6%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E%EF%BC%88%E5%8D%B3%E7%82%B9%E5%87%BB%E5%8A%AB%E6%8C%81%EF%BC%89%2F</url>
+    <content type="text"><![CDATA[漏洞描述：攻击者有可能注入含有恶意内容的 frame 或 iframe 标记。如果用户不够谨慎，就有可能浏览该标记，却意识不到自己会离开原始站点而进入恶意的站点。之后，攻击者便可以诱导用户再次登录，然后获取其登录凭证。 修复方式：一：在前端页面：当在页面触发点击跳转事件是校验是否点击的窗口在自己的框架中，从而禁止攻击者注入自己的iframe窃取用户的信息12345678910111213141516171819202122/*注册用户离开当前页面跳往其他页面时触发该事件*/window.onbeforeunload = function()&#123; setTimeout(function()&#123; setTimeout(beforeloadResult, 50)&#125; , 50); function beforeloadResult () &#123; alert("你取消了离开网页！"); console.log("这里可以做一些其他操作，比如恢复！"); &#125;或：/*页面一开始就检验当前页面是否是顶层窗口，如果不是，就将当前页面所在的窗口设置为顶层窗口，从而防止别的网站把你自己的网站放在他的Iframe中*/if(top!=window)&#123;top.location=window.location&#125; 二：Nginx 配置X-Frame-Options到 nginx/conf文件夹下，修改nginx.conf ，添加如下内容： ··· bash//配置proxy_pass的下面add_header X-Frame-Options “SAMEORIGIN”;重启Nginx服务。]]></content>
+      <categories>
+        <category>WEB安全</category>
+      </categories>
+      <tags>
+        <tag>漏洞</tag>
+        <tag>WEB安全</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[检测到目标URL存在http host头攻击漏洞]]></title>
+    <url>%2F2018%2F09%2F01%2F%E6%A3%80%E6%B5%8B%E5%88%B0%E7%9B%AE%E6%A0%87URL%E5%AD%98%E5%9C%A8http-host%E5%A4%B4%E6%94%BB%E5%87%BB%E6%BC%8F%E6%B4%9E%2F</url>
+    <content type="text"><![CDATA[漏洞描述：为了方便的获得网站域名，开发人员一般依赖于HTTP Host header。例如，在php里用_SERVER[“HTTP_HOST”]。但是这个header是不可信赖的，如果应用程序没有对host header值进行处理，就有可能造成恶意代码的传入。 修复方式：一：过滤器12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061626364656667686970717273import java.io.IOException;import javax.servlet.Filter;import javax.servlet.FilterChain;import javax.servlet.FilterConfig;import javax.servlet.ServletException;import javax.servlet.ServletRequest;import javax.servlet.ServletResponse;import javax.servlet.http.HttpServletRequest;import javax.servlet.http.HttpServletResponse;import org.slf4j.Logger;import org.slf4j.LoggerFactory;import cn.com.do1.component.util.AppConstant;/** * 防止攻击者替换请求header的host * @author hupenghui * */public class HostAccessFilter implements Filter &#123; private final static transient Logger logger = LoggerFactory.getLogger(HostAccessFilter.class); public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) throws IOException, ServletException &#123; HttpServletRequest request = (HttpServletRequest) req; HttpServletResponse response = (HttpServletResponse) res; // 头攻击检测 String requestHost=request.getHeader("host"); if (requestHost != null &amp;&amp; !ServerWhiteListUtil.isWhite(requestHost)) &#123; response.setStatus(403); return; &#125; chain.doFilter(req, res); &#125; @Override public void destroy() &#123; // TODO Auto-generated method stub &#125; @Override public void init(FilterConfig arg0) throws ServletException &#123; // TODO Auto-generated method stub &#125; public static class ServerWhiteListUtil&#123; private static String HOSTS = AppConstant.wx_host_access; /** * 判断当前host是否在白名单内 * @param host 待查host * @return boolean 是否在白名单内 */ public static boolean isWhite(String host) &#123; // logger.info("HostAccessFilter "+host+" 获取域名地址"); //校验host白名单 if (!HOSTS.contains(host)) &#123; logger.info("HostAccessFilter "+host+" 校验host不成功，原因可能是为添加指定的host白名单"); return false; &#125; return true; &#125; &#125;&#125; 二：配置nginx获取真实请求的host域名nginx反向代理配置时，一般会添加下面的配置： 1234567/** 在匹配请求地址的时候配置：location / &#123;xxx&#125;*/proxy_set_header Host $host;proxy_set_header X-Real-IP $remote_addr;proxy_set_header REMOTE-HOST $remote_addr;proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for; 其中第一行关于host的配置，是关于域名传递的配置，余下跟IP相关。 java取得域名：` bashJava代码/* 获取域名*/request.getServerName(); /* 获取域名*/request.getHost(); // 或者 request.getHeaders(“host”); /* 获取端口*/request.getPort();···]]></content>
+      <categories>
+        <category>WEB安全</category>
+      </categories>
+      <tags>
+        <tag>漏洞</tag>
+        <tag>WEB安全</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[Linux下安装tomcat服务器和部署WEB应用]]></title>
     <url>%2F2018%2F09%2F01%2FLinux%E4%B8%8B%E5%AE%89%E8%A3%85tomcat%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8C%E9%83%A8%E7%BD%B2WEB%E5%BA%94%E7%94%A8%2F</url>
     <content type="text"><![CDATA[一、上传Tomcat服务器 二、安装Tomcat服务器2.1、解压tomcat服务器压缩包 2.2、配置环境变量tomcat服务器运行时是需要JDK支持的，所以必须配置好JDK用到的那些环境变量 编辑/etc下的profile文件，加上如下内容： 2.3、修改tomcat服务器的启动端口 修改将Tomcat服务器启动时使用的端口，例如改成9999 修改完server.xml文件之后，保存，退出。 三、Tomcat服务器启动和关闭3.1、启动Tomcat服务器进入tomcat服务器的bin目录，然后执行”./startup.sh”命令启动Tomcat服务器，如下图所示： 查看tomcat服务器的Log信息，看看tomcat服务器是否已经正常启动，进入tomcat服务器下的logs目录，打开catalina.out文件进行查看，如下图所示： 访问Tomcat服务器，如下图所示： 可以正常访问了，说明Tomcat服务器已经正常启动成功了。 如果tomcat启动不了，那么最有可能就是启动时使用的端口被其他应用程序占用了，那么可以通过如下的办法进行排查，例如查看9999端口被哪个应用程序占用了。 3.2、关闭Tomcat服务器进入tomcat服务器的bin目录，然后执行”./shutdown.sh”命令启动Tomcat服务器，如下图所示： 查看tomcat服务器的Log信息，看看tomcat服务器是否已经正常关闭，进入tomcat服务器下的logs目录，打开catalina.out文件进行查看，如下图所示： 四、部署JavaWeb应用到Tomcat服务器部署JavaWeb应用到Tomcat服务器就是将开放好的JavaWeb应用打包成war包，然后发布到tomcat服务器的webapps目录下 4.1、打包JavaWeb应用（也可以使用maven的mvn clean package） 项目打包成功，如下图所示： 4.2、将war包发布到tomcat服务器的webapps目录下将JavaWeb应用打包成war包之后，要将这个war包放到tomcat服务器的webapps目录下]]></content>

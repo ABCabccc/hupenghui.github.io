@@ -89,7 +89,7 @@
 <meta property="og:site_name" content="个人笔记">
 <meta property="og:description" content="漏洞描述：为了方便的获得网站域名，开发人员一般依赖于HTTP Host header。例如，在php里用_SERVER[“HTTP_HOST”]。但是这个header是不可信赖的，如果应用程序没有对host header值进行处理，就有可能造成恶意代码的传入。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-09-01T13:35:43.967Z">
+<meta property="og:updated_time" content="2018-09-01T16:00:58.561Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="检测到目标URL存在http host头攻击漏洞">
 <meta name="twitter:description" content="漏洞描述：为了方便的获得网站域名，开发人员一般依赖于HTTP Host header。例如，在php里用_SERVER[“HTTP_HOST”]。但是这个header是不可信赖的，如果应用程序没有对host header值进行处理，就有可能造成恶意代码的传入。">
@@ -374,20 +374,7 @@
 <h3 id="二：配置nginx获取真实请求的host域名"><a href="#二：配置nginx获取真实请求的host域名" class="headerlink" title="二：配置nginx获取真实请求的host域名"></a>二：配置nginx获取真实请求的host域名</h3><p>nginx反向代理配置时，一般会添加下面的配置：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">/*</span><br><span class="line">* 在匹配请求地址的时候配置：location / &#123;xxx&#125;</span><br><span class="line">*/</span><br><span class="line">proxy_set_header Host <span class="variable">$host</span>;</span><br><span class="line">proxy_set_header X-Real-IP <span class="variable">$remote_addr</span>;</span><br><span class="line">proxy_set_header REMOTE-HOST <span class="variable">$remote_addr</span>;</span><br><span class="line">proxy_set_header X-Forwarded-For <span class="variable">$proxy_add_x_forwarded_for</span>;</span><br></pre></td></tr></table></figure>
 <p>其中第一行关于host的配置，是关于域名传递的配置，余下跟IP相关。</p>
-<h3 id="java取得域名："><a href="#java取得域名：" class="headerlink" title="java取得域名："></a>java取得域名：</h3><p><code>`</code> bash<br>Java代码<br>/*</p>
-<ul>
-<li>获取域名<br>*/<br>request.getServerName();</li>
-</ul>
-<p>/*</p>
-<ul>
-<li>获取域名<br>*/<br>request.getHost();</li>
-</ul>
-<p>// 或者</p>
-<p>request.getHeaders(“host”);</p>
-<p>/*</p>
-<ul>
-<li>获取端口<br>*/<br>request.getPort();<br>···</li>
-</ul>
+<h3 id="java取得域名："><a href="#java取得域名：" class="headerlink" title="java取得域名："></a>java取得域名：</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">Java代码</span><br><span class="line">/*</span><br><span class="line">* 获取域名</span><br><span class="line">*/</span><br><span class="line">request.getServerName();</span><br><span class="line"></span><br><span class="line">/*</span><br><span class="line">* 获取域名</span><br><span class="line">*/</span><br><span class="line">request.getHost();</span><br><span class="line"></span><br><span class="line">或者</span><br><span class="line"></span><br><span class="line">request.getHeaders(<span class="string">"host"</span>);</span><br><span class="line"></span><br><span class="line">/*</span><br><span class="line">* 获取端口</span><br><span class="line">*/</span><br><span class="line">request.getPort();</span><br></pre></td></tr></table></figure>
 
       
     </div>

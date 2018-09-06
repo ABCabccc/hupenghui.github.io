@@ -91,7 +91,7 @@
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://hupenghui123.top/2018/09/01/检测到目标URL存在http-host头攻击漏洞/security_hole_1.png">
 <meta property="og:image" content="http://hupenghui123.top/2018/09/01/检测到目标URL存在http-host头攻击漏洞/security_hole_2.png">
-<meta property="og:updated_time" content="2018-09-06T12:26:26.110Z">
+<meta property="og:updated_time" content="2018-09-06T12:30:27.782Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="检测到目标URL存在http host头攻击漏洞">
 <meta name="twitter:description" content="漏洞描述：为了方便的获得网站域名，开发人员一般依赖于HTTP Host header。例如，在php里用_SERVER[“HTTP_HOST”]。但是这个header是不可信赖的，如果应用程序没有对host header值进行处理，就有可能造成恶意代码的传入。">
@@ -365,7 +365,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  535
+                  536
                 </span>
               
 
@@ -410,7 +410,7 @@
 <p>其中第一行关于host的配置，是关于域名传递的配置，余下跟IP相关。</p>
 <h3 id="三：设置域名与虚拟主机的绑定"><a href="#三：设置域名与虚拟主机的绑定" class="headerlink" title="三：设置域名与虚拟主机的绑定"></a>三：设置域名与虚拟主机的绑定</h3><p>配置tomcat的server.xml配置文件</p>
 <img src="/2018/09/01/检测到目标URL存在http-host头攻击漏洞/security_hole_1.png" title="配置域名与虚拟主机的绑定">
-<h3 id="修改jsp中获取项目根路径的方式"><a href="#修改jsp中获取项目根路径的方式" class="headerlink" title="修改jsp中获取项目根路径的方式"></a>修改jsp中获取项目根路径的方式</h3><p>如下图的方式不可取</p>
+<h3 id="四：修改jsp中获取项目根路径的方式"><a href="#四：修改jsp中获取项目根路径的方式" class="headerlink" title="四：修改jsp中获取项目根路径的方式"></a>四：修改jsp中获取项目根路径的方式</h3><p>如下图的方式不可取</p>
 <img src="/2018/09/01/检测到目标URL存在http-host头攻击漏洞/security_hole_2.png" title="该获取的方式不可取">
 
       
@@ -635,7 +635,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#漏洞描述："><span class="nav-number">1.</span> <span class="nav-text">漏洞描述：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#修复方式："><span class="nav-number">2.</span> <span class="nav-text">修复方式：</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#一：过滤器"><span class="nav-number">2.1.</span> <span class="nav-text">一：过滤器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二：配置nginx获取真实请求的host域名"><span class="nav-number">2.2.</span> <span class="nav-text">二：配置nginx获取真实请求的host域名</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#三：设置域名与虚拟主机的绑定"><span class="nav-number">2.3.</span> <span class="nav-text">三：设置域名与虚拟主机的绑定</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#修改jsp中获取项目根路径的方式"><span class="nav-number">2.4.</span> <span class="nav-text">修改jsp中获取项目根路径的方式</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#漏洞描述："><span class="nav-number">1.</span> <span class="nav-text">漏洞描述：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#修复方式："><span class="nav-number">2.</span> <span class="nav-text">修复方式：</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#一：过滤器"><span class="nav-number">2.1.</span> <span class="nav-text">一：过滤器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二：配置nginx获取真实请求的host域名"><span class="nav-number">2.2.</span> <span class="nav-text">二：配置nginx获取真实请求的host域名</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#三：设置域名与虚拟主机的绑定"><span class="nav-number">2.3.</span> <span class="nav-text">三：设置域名与虚拟主机的绑定</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#四：修改jsp中获取项目根路径的方式"><span class="nav-number">2.4.</span> <span class="nav-text">四：修改jsp中获取项目根路径的方式</span></a></li></ol></li></ol></div>
             
 
           </div>
